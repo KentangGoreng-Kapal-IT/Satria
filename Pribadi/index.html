@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk & Profil</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">POCTA<span class="highlight">STORE</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#tentang">Tentang</a></li>
+            <li><a href="#profile">Profile</a></li>
+            <li><a href="#produk">Produk</a></li>
+            <li><a href="#kontak">Info Kontak</a></li>
+            <li><a href="#" id="loginBtnNav">Login</a></li>
+        </ul>
+        <div class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Dashboard/Home (Hero) -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Selamat Datang di <span class="highlight">Toko Kami</span></h1>
+            <p>Menyediakan produk berkualitas dengan pelayanan terbaik. Temukan barang incaran Anda di sini.</p>
+            <a href="#produk" class="btn btn-primary">Lihat Produk</a>
+        </div>
+    </section>
+
+    <!-- Tentang -->
+    <section id="tentang" class="section">
+        <div class="container">
+            <h2 class="section-title">Tentang <span class="highlight">Kami</span></h2>
+            <div class="content-box" style="position: relative;">
+                <div class="admin-actions admin-only hidden">
+                    <button class="btn btn-sm btn-secondary" onclick="openEditModal('tentang')"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteData('tentang')"><i class="fas fa-trash"></i></button>
+                </div>
+                <p id="tentangText">Kami adalah penyedia layanan dan produk unggulan yang berfokus pada kepuasan pelanggan. Dengan dedikasi tinggi, kami selalu berusaha menghadirkan inovasi dan kemudahan berbelanja bagi Anda.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profile -->
+    <section id="profile" class="section bg-darker">
+        <div class="container">
+            <h2 class="section-title">Profile <span class="highlight">Owner</span></h2>
+            <div class="profile-card" style="position: relative;">
+                <div class="admin-actions admin-only hidden">
+                    <button class="btn btn-sm btn-secondary" onclick="openEditModal('profile')"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteData('profile')"><i class="fas fa-trash"></i></button>
+                </div>
+               <div class="profile-icon" onclick="document.getElementById('inputFoto').click()" style="cursor: pointer;">
+                  <!-- Foto akan tampil di sini, jika kosong tampil ikon default -->
+                      <img id="fotoProfile" src="" alt="" style="display: none; width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+                         <i id="ikonDefault" class="fas fa-user-circle"></i>
+                         <!-- Input file tersembunyi -->
+                          <input type="file" id="inputFoto" accept="image/*" onchange="gantiFoto(event)" style="display: none;">
+</div>
+                <div class="profile-info">
+                    <h3 id="profileName">Pemilik Toko</h3>
+                    <p id="profileDesc">Seorang wirausahawan yang berkomitmen untuk memberikan nilai tambah kepada pelanggan. Berpengalaman dalam kurasi produk dan layanan prima.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produk -->
+    <section id="produk" class="section">
+        <div class="container">
+            <h2 class="section-title">Katalog <span class="highlight">Produk</span></h2>
+            <div class="product-grid" id="productGrid">
+                <!-- Produk akan di-render menggunakan JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Kontak -->
+    <section id="kontak" class="section bg-darker">
+        <div class="container">
+            <h2 class="section-title">Info <span class="highlight">Kontak</span></h2>
+            <div class="contact-card">
+                <div class="contact-item" style="position: relative;">
+                    <div class="admin-actions admin-only hidden">
+                        <button class="btn btn-sm btn-secondary" onclick="openEditModal('whatsapp')"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteData('whatsapp')"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <i class="fab fa-whatsapp"></i>
+                    <div>
+                        <h4>WhatsApp</h4>
+                        <p id="whatsappDisplay">+62 812-3456-7890</p>
+                    </div>
+                </div>
+                <div class="contact-item" style="position: relative;">
+                    <div class="admin-actions admin-only hidden">
+                        <button class="btn btn-sm btn-secondary" onclick="openEditModal('alamat')"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteData('alamat')"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Alamat Toko</h4>
+                        <p id="storeAddressDisplay">Kp. Ciburial RT/RW 004/008 Ds.Dano Kec.Leles Kab.Garut</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Pilihan Pemesanan -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeOrderModal">&times;</span>
+            <h2>Pesan <span class="highlight" id="modalProductName">Produk</span></h2>
+            <p>Pilih platform marketplace untuk melanjutkan pemesanan:</p>
+            <div class="marketplace-links" id="marketplaceLinks">
+                <!-- Link akan digenerate via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeLoginModal">&times;</span>
+            <h2>Login <span class="highlight">Admin</span></h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="username" value="admin" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" value="admin123" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: #aaa;">Gunakan username "admin" dan password "admin123"</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Edit General -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeEditModal">&times;</span>
+            <h2 id="editModalTitle">Edit <span class="highlight">Data</span></h2>
+            <form id="editForm">
+                <input type="hidden" id="editType">
+                <div class="input-group" id="editNameGroup" style="display: none;">
+                    <label>Nama/Judul</label>
+                    <input type="text" id="editName">
+                </div>
+                <div class="input-group">
+                    <label id="editValueLabel">Isi</label>
+                    <textarea id="editValue" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Edit Produk -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeEditProductModal">&times;</span>
+            <h2>Edit <span class="highlight">Produk</span></h2>
+            <form id="editProductForm">
+                <input type="hidden" id="editProdId">
+                <div class="input-group">
+                    <label>Nama Produk</label>
+                    <input type="text" id="editProdName" required>
+                </div>
+                <div class="input-group">
+                    <label>URL Gambar</label>
+                    <input type="text" id="editProdImg" required>
+                </div>
+                <div class="input-group">
+                    <label>Link Pemesanan</label>
+                    <input type="url" id="editProdLink" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Simpan Produk</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal / Floating Panel -->
+    <div id="adminPanel" class="admin-panel hidden">
+        <div class="admin-header">
+            <h3>Dashboard Admin</h3>
+            <button id="logoutBtn" class="btn btn-danger btn-sm">Logout</button>
+        </div>
+        <div class="admin-body">
+            <h4>Tambah Produk Baru</h4>
+            <form id="addProductForm">
+                <div class="input-group">
+                    <input type="text" id="newProdName" placeholder="Nama Produk" required>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="newProdImg" placeholder="URL Gambar" required>
+                </div>
+                <div class="input-group">
+                    <input type="url" id="newProdLink" placeholder="Link Pemesanan (Shopee/Tokopedia)" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Tambah Produk</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2026 Toko<span class="highlight">Hijau</span>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
